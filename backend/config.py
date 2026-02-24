@@ -2,7 +2,7 @@ import os
 
 class Config:
     # Database SQLite
-    SQLALCHEMY_DATABASE_URI = "sqlite://ashuraarticle.db"
+    SQLALCHEMY_DATABASE_URI = "sqlite:///ashuraarticle.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # For save image
