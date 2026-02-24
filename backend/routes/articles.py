@@ -57,7 +57,7 @@ def update_article(id):
     
     file = request.files.get("thumbnail")
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename):
+        filename = secure_filename(file.filename)
         file.save(os.path.join(current_app.config["UPLOAD_FOLDER"], filename))
         article.thumbnail = filename
         
@@ -65,3 +65,9 @@ def update_article(id):
         return jsonify({"message": "Artikel berhasil diupdate", "data": article.to_dict()})
     
 # DELETE
+@articles_bp.route("/article/<int:id>", methods=["DELETE"])
+def delete_article(id):
+    article = Article.query.get_or_404(id)
+    db.session.delete(article)
+    db.session.commit()
+    return jsonify({"message": "Artikel berhasil dihapus"})
