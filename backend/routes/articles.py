@@ -1,10 +1,10 @@
-from flask import Blueprint, request, json, current_app
+from flask import Blueprint, request, jsonify, current_app
 from models import Article
 from extension import db
 import os
 from werkzeug.utils import secure_filename
 
-articles_bp = Blueprint("aryicles", __name__)
+articles_bp = Blueprint("articles", __name__)
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
 
@@ -25,6 +25,7 @@ def create_article():
 
     thumbnail_filename = None
     if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
         file.save(os.path.join(current_app.config["UPLOAD_FOLDER"], filename))
         thumbnail_filename = filename
 
@@ -36,7 +37,7 @@ def create_article():
 
 
 # READ ALL
-@articles_bp.route("/articles/<int:id>", methods=["GET"])
+@articles_bp.route("/articles", methods=["GET"])
 def get_articles():
     articles = Article.query.order_by(Article.created_at.desc()).all()
     return jsonify([a.to_dict() for a in articles])
@@ -45,7 +46,7 @@ def get_articles():
 @articles_bp.route("/articles/<int:id>", methods=["GET"])
 def get_articles(id):
     articles = Article.query.get_or_404(id)
-    return jsonify(article_to_dict())
+    return jsonify(article.to_dict())
 
 # UPDATE
 @articles_bp.route("/articles/<int:id>", methods=["PUT"])
@@ -61,8 +62,8 @@ def update_article(id):
         file.save(os.path.join(current_app.config["UPLOAD_FOLDER"], filename))
         article.thumbnail = filename
         
-        db.session.commit()
-        return jsonify({"message": "Artikel berhasil diupdate", "data": article.to_dict()})
+    db.session.commit()
+    return jsonify({"message": "Artikel berhasil diupdate", "data": article.to_dict()})
     
 # DELETE
 @articles_bp.route("/article/<int:id>", methods=["DELETE"])
