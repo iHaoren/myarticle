@@ -66,7 +66,7 @@ def update_article(id):
     return jsonify({"message": "Artikel berhasil diupdate", "data": article.to_dict()})
     
 # DELETE
-@articles_bp.route("/article/<int:id>", methods=["DELETE"])
+@articles_bp.route("/articles/<int:id>", methods=["DELETE"])
 def delete_article(id):
     article = Article.query.get_or_404(id)
     db.session.delete(article)
