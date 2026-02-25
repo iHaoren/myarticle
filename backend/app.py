@@ -12,6 +12,9 @@ def create_app():
     # inisialisasi extension
     db.init_app(app)
     CORS(app)  # mengizinkan react untuk akses backend
+    
+    from routes.articles import articles_bp
+    app.register_blueprint(articles_bp)
 
     # Daftarkan routes
     @app.route("/uploads/<filename>")

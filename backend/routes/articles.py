@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, current_app
-from models import Article
+from models.article import Article
 from extension import db
 import os
 from werkzeug.utils import secure_filename
@@ -44,9 +44,9 @@ def get_articles():
 
 # READ ONE
 @articles_bp.route("/articles/<int:id>", methods=["GET"])
-def get_articles(id):
+def get_article(id):
     articles = Article.query.get_or_404(id)
-    return jsonify(article.to_dict())
+    return jsonify(articles.to_dict())
 
 # UPDATE
 @articles_bp.route("/articles/<int:id>", methods=["PUT"])
