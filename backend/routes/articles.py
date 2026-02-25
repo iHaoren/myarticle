@@ -1,6 +1,6 @@
 from flask import Blueprint, request, json, current_app
 from models import Article
-from app import db
+from extension import db
 import os
 from werkzeug.utils import secure_filename
 

@@ -1,10 +1,8 @@
 from flask import Flask, send_from_directory
-from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from config import Config
+from extension import db
 import os
-
-db = SQLAlchemy()
 
 
 def create_app():
